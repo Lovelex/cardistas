@@ -1,0 +1,27 @@
+a {
+  text-decoration: none;
+}
+
+.position-relative {
+  position: relative
+}
+
+.position-absolute {
+  position: relative
+}
+
+.right {
+  right: 0;
+}
+
+.left {
+  left: 0;
+}
+
+.top {
+  top: 0;
+}
+
+.bottom {
+  bottom: 0;
+}
