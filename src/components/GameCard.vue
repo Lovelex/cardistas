@@ -6,12 +6,12 @@
 
         <div class="d-block">
           <div class="text-caption">
-            <vIcon>mdi-account-group</vIcon>
+            <vIcon>mdi-gamepad-variant</vIcon>
             {{ game.name }}
           </div>
 
           <div class="text-caption">
-            <vIcon>mdi-gamepad-variant</vIcon>
+            <vIcon>mdi-account-group</vIcon>
             {{ game.minMaxPlayers }}
           </div>
 
@@ -21,10 +21,12 @@
           </div>
         </div>
 
-        <vBtn :to="{name: 'CoupPage'}" class="mt-auto">Jogar</vBtn>
-        <vBtn :href="game.shopUrl" target="_blank" variant="outlined" class="mt-auto">Comprar</vBtn>
+        <vBtn :to="{name: 'CoupPage'}" class="mt-auto mb-2">Jogar</vBtn>
+
+        <vBtn :href="game.shopUrl" target="_blank" variant="outlined">Comprar</vBtn>
       </div>
     </vImg>
+
     <vDialog v-model="show" :fullscreen="this.$vuetify.display.mobile">
       <GameInfo @close="show = false" :game="game"/>
     </vDialog>

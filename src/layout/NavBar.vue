@@ -10,10 +10,10 @@
 
 <script>
 export default {
-    data: () => ({
-        user: {
-            name: "Mock",
-        }
-    })
+  data: () => ({
+    user: {
+      name: "Mock",
+    }
+  })
 };
 </script>
