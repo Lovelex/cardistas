@@ -1,35 +1,51 @@
 <template>
-  <VForm @submit.prevent="submit">
-    <VTextField v-model="user.email" label="E-mail" />
-    <VTextField v-model="user.password" type="password" label="Senha" />
+  <VForm ref="form" @submit.prevent="submit">
+    <VTextField :rules="[form.email, form.required]" v-model="user.email" label="E-mail" />
+
+    <VTextField :rules="[form.required, form.min]" v-model="user.password" type="password" label="Senha" />
+
+    <span class="text-error">{{ form.error }}</span>
+
     <div class="d-flex justify-end">
-      <VBtn color="primary" type="submit">Entrar</VBtn>
+      <VBtn :loading="isLoading" color="primary" type="submit">Entrar</VBtn>
     </div>
   </VForm>
 </template>
 
 <script>
-import { signIn } from '@/plugins/firebase'
+import { signIn } from '@/firebaseAuth'
+import { required, email, min } from '@/inputRules'
 
 export default {
   data: () => ({
+    form: {
+      required,
+      email,
+      min,
+      error: null
+    },
     user: {
       email: "",
       password: ""
     },
-    inputRules: {
-      required: v => !!v || "O campo deve ser preenchido",
-      email: v => /.+@.+\..+/.test(v) || "E-mail precisa ser válido",
-      min: v => v.length >= 6 || "A senha dever ter no mínimo 6 dígitos"
-    }
+    isLoading: false,
   }),
   methods: {
     async submit() {
+      const formValidation = await this.$refs.form.validate()
+      if(!formValidation.valid) return
+
+      this.form.error = null
+
+      this.isLoading = true
+
       try {
-        const userCredentials = await signIn(this.user.email, this.user.password)
-        console.log(userCredentials)
+        await signIn(this.user.email, this.user.password)
+        this.$router.push({ name: 'HomePage' })
       } catch (error) {
-        console.log(error)
+        this.form.error = error.message
+      } finally {
+        this.isLoading = false
       }
     }
   }

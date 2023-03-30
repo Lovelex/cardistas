@@ -8,5 +8,21 @@
 
 <script>
 import '@/style.css'
-export default { name: 'App' }
+import { onAuthStateChanged, auth } from '@/firebaseAuth'
+import { useUser } from '@/store'
+
+export default {
+  name: 'App',
+  created() {
+    onAuthStateChanged(auth, userAuth => {
+      const user = useUser()
+
+      if (!userAuth) {
+        return user.setMe(null)
+      }
+
+      return user.setMe(userAuth)
+    })
+  }
+}
 </script>
